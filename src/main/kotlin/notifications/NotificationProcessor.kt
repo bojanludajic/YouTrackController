@@ -1,4 +1,4 @@
-package com.bojanludajic
+package com.bojanludajic.notifications
 
 import com.google.gson.JsonParser
 import java.io.BufferedReader
@@ -11,6 +11,7 @@ object NotificationProcessor {
 
     private val regexCreatedAt = Regex("""Created at\s+([0-9]{2}\s\w+\s[0-9]{4}\s[0-9]{2}:[0-9]{2})""")
     private val regexComment = Regex("""Comment:\s*(.*?)\s*<""", RegexOption.DOT_MATCHES_ALL)
+    private val processed = mutableSetOf<String>()
 
     fun processJson(response: String) {
         val jsonArray = JsonParser.parseString(response).asJsonArray
@@ -18,12 +19,15 @@ object NotificationProcessor {
         for (item in jsonArray) {
             val obj = item.asJsonObject
             val id = obj["id"].asString
-            val contentEncoded = obj["content"].asString
 
+            if(processed.contains(id)) continue
+
+            processed.add(id)
+            val read = obj["read"].asString
+            val contentEncoded = obj["content"].asString
             val contentDecoded = decodeGzipBase64(contentEncoded)
 
-            extractFields(id, contentDecoded)
-            println("-----------------------------------------------------")
+            DiscordNotificationService.sendMessage(extractFields(id, read, contentDecoded))
         }
     }
 
@@ -34,13 +38,19 @@ object NotificationProcessor {
         }
     }
 
-    private fun extractFields(id: String, content: String) {
+    private fun extractFields(id: String, read: String, content: String): String {
         val createdAt = regexCreatedAt.find(content)?.groupValues?.get(1)?.trim()
         val comment = regexComment.find(content)?.groupValues?.get(1)?.trim()
 
-        println("Notification ID: $id")
-        println("Created at: ${createdAt ?: "(none)"}")
-        println("Comment: ${comment ?: "(none)"}")
+        val message = buildString {
+            append("🆕 **YouTrack Notification**\n")
+            append("**ID:** $id\n")
+            append("**Created At:** ${createdAt ?: "(none)"}\n")
+            append("**Comment:** ${comment ?: "(none)"}\n")
+            append("**Read:** $read")
+        }
+
+        return message
     }
 
 }

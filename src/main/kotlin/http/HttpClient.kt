@@ -1,4 +1,4 @@
-package com.bojanludajic
+package com.bojanludajic.http
 
 import com.bojanludajic.env.Secrets
 import java.net.HttpURLConnection
