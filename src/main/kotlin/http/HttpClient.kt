@@ -14,7 +14,7 @@ object HttpClient {
 
 
     fun getNotifications(): String {
-        val urlString = Secrets.YOUTRACK_GET_NOFICIATIONS_URL
+        val urlString = Secrets.YOUTRACK_GET_NOTIFICATIONS_URL
 
         val url = URL(urlString)
 
