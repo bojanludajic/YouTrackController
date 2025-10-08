@@ -35,12 +35,12 @@ Once done, copy the Webhook URL. This simplifies the client-bot interactions.
 After that, create a Discord bot, add it to your server and get its token.
 
 Once you have all of those, create a Singleton object Secrets.kt with the
-following properties:
-    - YOUTRACK_API_TOKEN
-    - YOUTRACK_NOTIFICATIONS_URL
-    - WEBHOOK_URL
-    - YOUTRACK_CREATE_ISSUE_URL
-    - DISCORD_BOT_KEY
+following properties:  
+    - YOUTRACK_API_TOKEN  
+    - YOUTRACK_NOTIFICATIONS_URL  
+    - WEBHOOK_URL  
+    - YOUTRACK_CREATE_ISSUE_URL  
+    - DISCORD_BOT_KEY  
 
 Run the project.
 
@@ -54,4 +54,3 @@ The project uses the following libraries:
 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 implementation("com.google.code.gson:gson:2.10.1")
 implementation("dev.kord:kord-core:0.10.0")
-implementation("org.slf4j:slf4j-simple:2.0.9")
