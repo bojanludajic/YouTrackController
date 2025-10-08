@@ -14,7 +14,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("dev.kord:kord-core:0.10.0")
-    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 tasks.test {
